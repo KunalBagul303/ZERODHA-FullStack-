@@ -2,6 +2,15 @@ const User = require("../model/UserModel");
 const bcrypt = require("bcryptjs");
 const { createSecretToken } = require("../utils/SecretToken");
 
+const isProd = process.env.NODE_ENV === "production";
+
+// ✅ cookie options (local vs deploy)
+const cookieOptions = {
+  httpOnly: true,
+  secure: isProd,                 // production: true, local: false
+  sameSite: isProd ? "none" : "lax", // production: none, local: lax
+};
+
 module.exports.Signup = async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -18,11 +27,8 @@ module.exports.Signup = async (req, res) => {
 
     const token = createSecretToken(user._id);
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: false, // production => true
-      sameSite: "lax",
-    });
+    // ✅ set cookie
+    res.cookie("token", token, cookieOptions);
 
     return res.status(201).json({
       success: true,
@@ -55,11 +61,8 @@ module.exports.Login = async (req, res) => {
 
     const token = createSecretToken(user._id);
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-    });
+    // ✅ set cookie
+    res.cookie("token", token, cookieOptions);
 
     return res.status(200).json({
       success: true,
@@ -73,6 +76,6 @@ module.exports.Login = async (req, res) => {
 };
 
 module.exports.Logout = async (req, res) => {
-  res.clearCookie("token");
+  res.clearCookie("token", cookieOptions); // ✅ important (same options)
   return res.status(200).json({ success: true, message: "Logout done ✅" });
 };

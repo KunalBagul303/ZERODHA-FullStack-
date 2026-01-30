@@ -18,7 +18,7 @@ function Signup() {
 
       if (res.data.success) {
         alert("Signup successful ✅");
-        window.location.href = "https://zerodha-fullstack-ui.onrender.com/signup";
+        window.location.href = "https://zerodha-fullstack-dashboard.onrender.com";
 
       } else {
         alert(res.data.message || "Signup failed ❌");

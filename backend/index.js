@@ -69,9 +69,15 @@ const app = express();
 
 // ✅ middleware
 app.use(cors({
-  origin: ["http://localhost:3000", "http://localhost:3001"],
+  origin: [
+    "https://zerodha-fullstack-ui.onrender.com",
+    "https://zerodha-fullstack-dashboard.onrender.com",
+    "http://localhost:3000",
+    "http://localhost:3001"
+  ],
   credentials: true
 }));
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

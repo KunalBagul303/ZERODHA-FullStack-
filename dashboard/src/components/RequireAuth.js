@@ -31,7 +31,8 @@ const RequireAuth = ({ children }) => {
 
   // ❌ If not logged in, redirect to signup (NOT login)
   if (!auth) {
-    window.location.href = "http://localhost:3000/signup";
+   window.location.href = "https://zerodha-fullstack-ui.onrender.com/signup";
+
     return null;
   }
 

@@ -1,0 +1,42 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
+const RequireAuth = ({ children }) => {
+  const [loading, setLoading] = useState(true);
+  const [auth, setAuth] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await axios.get("http://localhost:3002/api/auth/me", {
+          withCredentials: true,
+        });
+
+        if (res.data.success) {
+          setAuth(true);
+        } else {
+          setAuth(false);
+        }
+      } catch (err) {
+        setAuth(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+  if (loading) return <h2>Loading...</h2>;
+
+  // ❌ If not logged in, redirect to signup (NOT login)
+  if (!auth) {
+    window.location.href = "http://localhost:3000/signup";
+    return null;
+  }
+
+  // ✅ Logged in: allow dashboard
+  return children;
+};
+
+export default RequireAuth;

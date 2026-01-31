@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import API from "../../api";
+res.cookie("token", token, cookieOptions);
 
 function Signup() {
   const [username, setUsername] = useState("");

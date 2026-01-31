@@ -9,6 +9,7 @@ const cookieOptions = {
   httpOnly: true,
   secure: isProd,                 // production: true, local: false
   sameSite: isProd ? "none" : "lax", // production: none, local: lax
+  path: "/",
 };
 
 module.exports.Signup = async (req, res) => {
